@@ -195,7 +195,12 @@ public:
       return readFile(kj::str("client/", path, "index.html"), context, "text/html; charset=UTF-8");
     } else {
       // Request for a static file. Look for it under "client/".
-      auto filename = kj::str("client/", path);
+      kj::String filename;
+      KJ_IF_MAYBE(questionIndex, path.findLast('?')) {
+        filename = kj::str("client/", path.slice(0, *questionIndex));
+      } else {
+        filename = kj::str("client/", path);
+      }
 
       // Check if it's a directory.
       if (isDirectory(filename)) {
@@ -208,7 +213,7 @@ public:
       }
 
       // Regular file (or non-existent).
-      return readFile(kj::mv(filename), context, inferContentType(path));
+      return readFile(kj::mv(filename), context, inferContentType(filename));
     }
   }
 
@@ -260,6 +265,8 @@ public:
           KJ_FAIL_SYSCALL("unlink", error);
         }
       }
+
+      context.getResults().initNoContent();
     }
 
     return kj::READY_NOW;
