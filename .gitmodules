@@ -1,0 +1,3 @@
+[submodule "laverna"]
+	path = laverna
+	url = git@github.com:jparyani/laverna.git
