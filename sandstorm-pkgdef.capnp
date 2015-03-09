@@ -1,6 +1,4 @@
-@0xeef286f78b0168e0;
-# When cloning the example, you'll want to replace the above file ID with a new
-# one generated using the `capnp id` command.
+@0xe8750674e4f4a7a6;
 
 using Spk = import "/sandstorm/package.capnp";
 # This imports:
@@ -11,23 +9,21 @@ const pkgdef :Spk.PackageDefinition = (
   # The package definition. Note that the spk tool looks specifically for the
   # "pkgdef" constant.
 
-  id = "8e4wpgf664gqek74uy6cmq3kyw1xu0ztfj8ktwwa9yxv90ew24z0",
-  # The app ID is actually the public key used to sign the app package.
-  # All packages with the same ID are versions of the same app.
-  #
-  # If you are working from the example, you'll need to replace the above
-  # public key with one of your own. Use the `spk keygen` command to generate
-  # a new one.
+  id = "4dgxs5m0gnjmjpg88mswqsy9fj08t3z6c8kwv4y9tkgxvp9eas9h",
+  # Your app ID is actually its public key. The private key was placed in
+  # your keyring. All updates must be signed with the same key.
 
   manifest = (
     # This manifest is included in your app package to tell Sandstorm
     # about your app.
 
-    appVersion = 0,  # Increment this for every release.
+    appTitle = (defaultText = "Laverna"),
+
+    appVersion = 4,  # Increment this for every release.
 
     actions = [
       # Define your "new document" handlers here.
-      ( title = (defaultText = "New RawApiExample Instance"),
+      ( title = (defaultText = "New Laverna Instance"),
         command = .myCommand
         # The command to run when starting for the first time. (".myCommand"
         # is just a constant defined at the bottom of the file.)
@@ -46,8 +42,8 @@ const pkgdef :Spk.PackageDefinition = (
     searchPath = [
       ( packagePath = "server", sourcePath = "server" ),
       # Map server binary at "/server".
-      
-      ( packagePath = "client", sourcePath = "client" ),
+
+      ( packagePath = "client", sourcePath = "laverna/dist" ),
       # Map client directory at "/client".
 
       ( sourcePath = "empty" )
@@ -55,9 +51,16 @@ const pkgdef :Spk.PackageDefinition = (
     ]
   ),
 
+  fileList = "sandstorm-files.list",
+  # `spk dev` will write a list of all the files your app uses to this file.
+  # You should review it later, before shipping your app.
+
   alwaysInclude = [ "." ]
-  # Always include all mapped files, whether or not they are opened during
-  # "spk dev".
+  # Fill this list with more names of files or directories that should be
+  # included in your package, even if not listed in sandstorm-files.list.
+  # Use this to force-include stuff that you know you need but which may
+  # not have been detected as a dependency during `spk dev`. If you list
+  # a directory here, its entire contents will be included recursively.
 );
 
 const myCommand :Spk.Manifest.Command = (
