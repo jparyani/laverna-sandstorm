@@ -19,22 +19,51 @@ const pkgdef :Spk.PackageDefinition = (
 
     appTitle = (defaultText = "Laverna"),
 
-    appVersion = 4,  # Increment this for every release.
+    appVersion = 7,  # Increment this for every release.
+
+    appMarketingVersion = (defaultText = "0.6.3-git"),
 
     actions = [
       # Define your "new document" handlers here.
       ( title = (defaultText = "New Laverna Instance"),
+        nounPhrase = (defaultText = "notebook"),
         command = .myCommand
         # The command to run when starting for the first time. (".myCommand"
         # is just a constant defined at the bottom of the file.)
       )
     ],
 
-    continueCommand = .myCommand
+    continueCommand = .myCommand,
     # This is the command called to start your app back up after it has been
     # shut down for inactivity. Here we're using the same command as for
     # starting a new instance, but you could use different commands for each
-    # case.
+    # case.+
+    metadata = (
+      icons = (
+        appGrid = (svg = embed "app-graphics/laverna-128.svg"),
+        grain = (svg = embed "app-graphics/laverna-24.svg"),
+        market = (svg = embed "app-graphics/laverna-150.svg"),
+      ),
+
+      website = "https://laverna.cc/",
+      codeUrl = "https://github.com/jparyani/laverna",
+      license = (openSource = gpl3),
+      categories = [productivity], # TODO(more)
+
+      author = (
+        contactEmail = "jparyani@sandstorm.io",
+        pgpSignature = embed "pgp-signature",
+        upstreamAuthor = "Laverna Team",
+      ),
+      pgpKeyring = embed "pgp-keyring",
+
+      description = (defaultText = embed "description.md"),
+      shortDescription = (defaultText = "Note-taking"),
+
+      screenshots = [
+        (width = 448, height = 248, png = embed "sandstorm-screenshot.png")
+      ],
+    ),
   ),
 
   sourceMap = (
