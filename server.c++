@@ -151,7 +151,9 @@ public:
                  sandstorm::WebSession::Params::Reader params) {
     // Permission #0 is "write". Check if bit 0 in the PermissionSet is set.
     auto permissions = userInfo.getPermissions();
-    canWrite = permissions.size() > 0 && (permissions[0] & 1);
+    canWrite = true;
+    // TODO(soon): add actual permissions. make sure the app reports to user that write is disabled
+    // canWrite = permissions.size() > 0 && (permissions[0] & 1);
 
     // `UserInfo` is defined in `sandstorm/grain.capnp` and contains info like:
     // - A stable ID for the user, so you can correlate sessions from the same user.
