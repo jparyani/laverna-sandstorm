@@ -178,7 +178,20 @@ public:
 
     if (path == "var" || path == "var/") {
       // Return a listing of the directory contents, one per line.
-      auto text = kj::strArray(listDirectory("var"), "\n");
+      auto text = kj::str('{',
+        kj::strArray(KJ_MAP(file, listDirectory("var")) {
+          auto filename = kj::str("var/", file);
+          KJ_IF_MAYBE(fd, tryOpen(filename, O_RDONLY)) {
+            auto size = getFileSize(*fd, filename);
+            kj::FdInputStream stream(kj::mv(*fd));
+            auto res = kj::heapString(size);
+            stream.read(res.begin(), size);
+            return kj::str('"', file, "\":", res);
+          } else {
+            KJ_FAIL_REQUIRE("couldn't read file");
+          }
+        }, ","),
+      '}');
       auto response = context.getResults().initContent();
       response.setMimeType("text/plain");
       response.getBody().setBytes(
