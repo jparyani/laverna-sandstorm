@@ -186,6 +186,10 @@ public:
             kj::FdInputStream stream(kj::mv(*fd));
             auto res = kj::heapString(size);
             stream.read(res.begin(), size);
+            if (res.size() == 0) {
+              res = kj::str("\"\"");
+            }
+
             return kj::str('"', file, "\":", res);
           } else {
             KJ_FAIL_REQUIRE("couldn't read file");
