@@ -19,7 +19,7 @@ const pkgdef :Spk.PackageDefinition = (
 
     appTitle = (defaultText = "Laverna"),
 
-    appVersion = 12,  # Increment this for every release.
+    appVersion = 13,  # Increment this for every release.
 
     appMarketingVersion = (defaultText = "0.6.3-git"),
 
